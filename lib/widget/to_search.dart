@@ -15,7 +15,8 @@ class ToSearch extends StatelessWidget {
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) {
                   return SearchPage();
-                })
+                },
+                fullscreenDialog: true)
               );
             },
             icon: Icon(

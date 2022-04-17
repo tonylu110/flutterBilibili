@@ -7,9 +7,11 @@ class SearchPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           "搜索",
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
         ),
         centerTitle: true,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
       ),
     );
   }

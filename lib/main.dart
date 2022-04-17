@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bilibili/widget/to_search.dart';
+import 'package:flutter_bilibili/pages/feed_page.dart';
+import 'package:flutter_bilibili/pages/main_page.dart';
+import 'package:flutter_bilibili/pages/mine_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,23 +21,30 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  List<Widget> widgets = [MainPage(),FeedPage(),MinePage()];
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
+  int _index = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "首页",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-      ),
-      body: Column(
-        children: [
-          ToSearch()
+      body: widget.widgets[_index],
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "主页"),
+          BottomNavigationBarItem(icon: Icon(Icons.apps_outlined), label: "动态"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "我的"),
         ],
+        currentIndex: _index,
+        onTap: (v) {
+          setState(() {
+            _index = v;
+          });
+        },
       ),
     );
   }
