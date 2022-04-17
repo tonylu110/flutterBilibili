@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class MainList extends StatefulWidget {
   @override
@@ -12,12 +15,7 @@ class _MainListState extends State<MainList> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    for (var i = 0; i < 10; i++) {
-      list.add({
-        "age": 10 + i,
-        "name": "lu" + i.toString()
-      });
-    }
+    _getList();
   }
 
   @override
@@ -35,9 +33,16 @@ class _MainListState extends State<MainList> {
                 margin: EdgeInsets.all(5),
                 child: Column(
                   children: [
+                    AspectRatio(
+                      aspectRatio: 16/10,
+                      child: Image.network(e["pic"].toString(),fit: BoxFit.cover,),
+                    ),
                     ListTile(
-                      title: Text(e["name"].toString()),
-                      subtitle: Text(e["age"].toString()),
+                      leading: ClipOval(
+                        child: Image.network(e["owner"]["face"],fit: BoxFit.cover,height: 40, width: 40,),
+                      ),
+                      title: Text(e["title"].toString(),maxLines: 1,),
+                      subtitle: Text(e["owner"]["name"].toString(),maxLines: 1,),
                     )
                   ],
                 ),
@@ -51,7 +56,25 @@ class _MainListState extends State<MainList> {
 
   Future _onRefresh() async {
     await Future.delayed(Duration(seconds: 1),() {
-      print("future");
+      setState(() {
+        list = [];
+      });
+      _getList();
     });
+  }
+
+  _getList() async {
+    var url = Uri.parse("https://www.bilibili.com/index/ding.json");
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      Map vlistm = json.decode(response.body)["douga"];
+      List<Map> vlistl = [];
+      for (var i = 0; i < vlistm.length; i++) {
+        vlistl.add(vlistm[i.toString()]);
+      }
+      setState(() {
+        list = vlistl;
+      });
+    }
   }
 }

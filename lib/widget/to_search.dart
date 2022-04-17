@@ -8,7 +8,7 @@ class ToSearch extends StatelessWidget {
       children: [
         Container(
           width: MediaQuery.of(context).size.width - 30,
-          height: 50,
+          height: 40,
           margin: EdgeInsets.all(15.0),
           child: OutlineButton.icon(
             onPressed: () {

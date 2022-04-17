@@ -22,23 +22,31 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
-  List<Widget> widgets = [MainPage(),FeedPage(),MinePage()];
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   int _index = 0;
+  List<Widget> _body = [
+    MainPage(),
+    FeedPage(),
+    MinePage()
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: widget.widgets[_index],
+      body: IndexedStack(
+        index: _index,
+        children: _body
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "主页"),
           BottomNavigationBarItem(icon: Icon(Icons.apps_outlined), label: "动态"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "我的"),
         ],
+        iconSize: 30,
         currentIndex: _index,
         onTap: (v) {
           setState(() {
